@@ -1,0 +1,54 @@
+{
+  "name": "mongoose-modified-at",
+  "description": "Mongoose plugin that tracking the fields you specified and automatically record the time of their changes to DB.",
+  "version": "2.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "yarn test --watch",
+    "coverage": "jest --coverage --maxWorkers 4",
+    "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
+    "lint": "tslint --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.27",
+    "@types/chance": "^1.0.6",
+    "@types/jest": "^24.0.18",
+    "@types/lodash": "^4.14.137",
+    "@types/mongoose": "^5.5.13",
+    "bluebird": "^3.5.5",
+    "chance": "^1.1.0",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.2.4",
+    "moment": "^2.24.0",
+    "mongodb-memory-server": "^5.2.2",
+    "mongoose": "^5.6.10",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.5.3"
+  },
+  "author": "Barrior",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  }
+}
