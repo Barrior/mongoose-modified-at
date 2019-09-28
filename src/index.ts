@@ -196,7 +196,7 @@ function handleOptions(options: string[] | IOptions): ICorrectOptions {
       }
     })
   } else {
-    throw Error('Missing options or type error of parameter "options"')
+    throw Error('Missing options or type error of parameter "options".')
   }
 
   return { suffix, select, fields, customList }
