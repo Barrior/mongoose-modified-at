@@ -1,6 +1,6 @@
 {
   "name": "mongoose-modified-at",
-  "description": "Mongoose plugin that tracking the fields you specified and automatically record the time of their changes to DB.",
+  "description": "Mongoose plugin that tracking the fields you specified and automatically record the change time of them into DB.",
   "version": "2.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
