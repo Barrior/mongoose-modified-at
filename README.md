@@ -3,6 +3,16 @@
 `Mongoose`  插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能，但不是它。
 
 
+### 目录
+
+- [使用场景](#使用场景)
+- [API介绍](#api介绍)
+- [支持异步（Async）](#支持异步async)
+- [细节说明](#细节说明)
+- [版本支持](#版本支持)
+- [更新日志](#更新日志)
+- [协议](#协议)
+
 
 ### 使用场景
 
@@ -110,7 +120,7 @@ schema.plugin(modifiedAt, {
 **1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
 
 ```javascript
-// app.js
+// app.ts
 import modifiedAt from 'mongoose-modified-at'
 modifiedAt.suffix = '_my_modified_at'
 ```
