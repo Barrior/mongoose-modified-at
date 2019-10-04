@@ -107,7 +107,7 @@ schema.plugin(modifiedAt, {
 
 
 
-**1、**如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
+**1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
 
 ```javascript
 // app.js
@@ -117,7 +117,7 @@ modifiedAt.suffix = '_my_modified_at'
 
 
 
-**2、**为了增加  `API`  的简洁易用同时避免过度重载，`ModifiedAt` 只增加了一种简化传参格式，如下。
+**2、** 为了增加  `API`  的简洁易用同时避免过度重载，`ModifiedAt` 只增加了一种简化传参格式，如下。
 
 ```javascript
 schema.plugin(modifiedAt, ['name', 'status'])
@@ -167,7 +167,7 @@ petSchema.plugin(modifiedAt, {
 
 ### 细节说明
 
-👍 **1、**对于 `update` 系列操作，可通过在 `options` 里加上 `{ modifiedAt: false }` 来跳过插件功能，对于此次更新。
+👍 **1、** 对于 `update` 系列操作，可通过在 `options` 里加上 `{ modifiedAt: false }` 来跳过插件功能，对于此次更新。
 
 `JavaScript` 示例如：`Model.updateOne({}, { status: 2 }, { modifiedAt: false })`
 
@@ -175,7 +175,7 @@ petSchema.plugin(modifiedAt, {
 
 
 
-🙌 **2、**如果要为 `Model.create()`  指定 `options`，文档需要是数组，如 [Mongoose 的描述](https://mongoosejs.com/docs/api/model.html#model_Model.create)：
+🙌 **2、** 如果要为 `Model.create()`  指定 `options`，文档需要是数组，如 [Mongoose 的描述](https://mongoosejs.com/docs/api/model.html#model_Model.create)：
 
 ```javascript
 [options] «Object» Options passed down to save(). To specify options, docs must be an array, not a spread.
@@ -183,7 +183,7 @@ petSchema.plugin(modifiedAt, {
 
 
 
-🤟 **3、**对于 `replace` 系列操作，`modifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `modifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
+🤟 **3、** 对于 `replace` 系列操作，`modifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `modifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
 
 示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
@@ -198,13 +198,13 @@ petSchema.plugin(modifiedAt, {
 
 
 
-🖐 **4、**暂不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
+🖐 **4、** 暂不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
 
 虽然结果相同，但性能不同，如果同时要兼顾性能，可自行在 `bulkWrite()` 数据里加上时间。
 
 
 
-🖐 **5、**暂不支持 `MongoDB` 原生操作符，如 `$set, $inc, $min` 等。
+🖐 **5、** 暂不支持 `MongoDB` 原生操作符，如 `$set, $inc, $min` 等。
 
 示例如：`updateOne({}, { $inc: { quantity: 5 } })`
 
