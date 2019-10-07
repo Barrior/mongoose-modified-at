@@ -1,6 +1,6 @@
 ## mongoose-modified-at
 
-`Mongoose`  插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能，但两者不同。
+`Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
 
 
 ### 目录
