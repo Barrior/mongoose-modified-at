@@ -193,7 +193,7 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-🤟 **3、** 对于 `replace` 系列操作，`modifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `modifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
+🤟 **3、** 对于 `replace` 系列操作，`ModifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `ModifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
 
 示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
