@@ -183,7 +183,7 @@ petSchema.plugin(modifiedAt, {
 
 `TypeScript` 示例如：`Model.updateOne({}, { status: 2 }, { modifiedAt: false } as any)`
 
-
+<br>
 
 🙌 **2、** 如果要为 `Model.create()`  指定 `options`，文档需要是数组，如 [Mongoose 的描述](https://mongoosejs.com/docs/api/model.html#model_Model.create)：
 
@@ -191,7 +191,7 @@ petSchema.plugin(modifiedAt, {
 [options] «Object» Options passed down to save(). To specify options, docs must be an array, not a spread.
 ```
 
-
+<br>
 
 🤟 **3、** 对于 `replace` 系列操作，`modifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `modifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
 
@@ -206,13 +206,13 @@ petSchema.plugin(modifiedAt, {
 - Query.prototype.replaceOne()
 - Document.prototype.replaceOne()
 
-
+<br>
 
 🖐 **4、** 暂不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
 
 虽然结果相同，但性能不同，如果同时要兼顾性能，可自行在 `bulkWrite()` 数据里加上时间。
 
-
+<br>
 
 🖐 **5、** 暂不支持 `MongoDB` 原生操作符，如 `$set, $inc, $min` 等。
 
