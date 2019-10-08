@@ -98,7 +98,7 @@ schema.plugin(modifiedAt, {
   // 设置监听字段
   fields: ['name', 'status', 'another'],
   // 设置后缀
-  suffix: '_my_modified_at',
+  suffix: '_your_suffix',
   // 设置路径默认行为
   select: true,
   // 自定义字段
@@ -120,9 +120,8 @@ schema.plugin(modifiedAt, {
 **1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
 
 ```javascript
-// app.ts
 import modifiedAt from 'mongoose-modified-at'
-modifiedAt.suffix = '_my_modified_at'
+modifiedAt.suffix = '_your_suffix'
 ```
 
 
