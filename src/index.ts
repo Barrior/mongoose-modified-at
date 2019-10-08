@@ -67,13 +67,13 @@ class ModifiedAt {
 
   public async setTimestamps(params: {
     that?: any
-    purelySet?: boolean
+    softlySet?: boolean
     doc: any
     modifiedPaths: string[]
   }) {
     const { suffix, fields, customList } = this.options
-    const purelySet = params.hasOwnProperty('purelySet')
-      ? params.purelySet
+    const softlySet = params.hasOwnProperty('softlySet')
+      ? params.softlySet
       : true
 
     const updatePaths: string[] = []
@@ -96,7 +96,7 @@ class ModifiedAt {
     }
 
     forEach(updatePaths, pathname => {
-      if (purelySet) {
+      if (softlySet) {
         params.that.set(pathname, updateTime)
       } else {
         params.that[pathname] = updateTime
@@ -144,7 +144,7 @@ class ModifiedAt {
           that: updates,
           doc: assign({}, this.getFilter(), updates),
           modifiedPaths: keys(updates),
-          purelySet: false,
+          softlySet: false,
         })
         this.setUpdate(updates)
       }
@@ -162,7 +162,7 @@ class ModifiedAt {
           that: doc,
           doc,
           modifiedPaths: keys(doc),
-          purelySet: false,
+          softlySet: false,
         })
       }
     })
