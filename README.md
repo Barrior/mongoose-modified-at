@@ -108,7 +108,7 @@ schema.plugin(modifiedAt, {
 })
 ```
 
-参数解释：
+🍎 参数解释：
 
 - `fields`: 设置监听字段，在文档创建或更新时，如果被监听的字段有改变，则自动以 `字段名 + 后缀` 的形式记录字段更新时间。可选，`Array` 类型。
 - `suffix`: 设置后缀，默认值为 `_modifiedAt`。可选，`String` 类型。
@@ -117,7 +117,7 @@ schema.plugin(modifiedAt, {
 
 
 
-**1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
+🌟 **1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
@@ -126,7 +126,7 @@ modifiedAt.suffix = '_your_suffix'
 
 
 
-**2、** 为了增加  `API`  的简洁易用同时避免过度重载，`ModifiedAt` 只增加了一种简化传参格式，如下。
+🚀 **2、** 为了增加  `API`  的简洁易用同时避免过度重载，`ModifiedAt` 只增加了一种简化传参格式，如下。
 
 ```javascript
 schema.plugin(modifiedAt, ['name', 'status'])
