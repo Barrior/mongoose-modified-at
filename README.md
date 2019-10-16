@@ -186,7 +186,6 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-
 🤟 **2、** 对于 `replace` 系列操作，`ModifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `ModifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
 
 示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
@@ -199,20 +198,43 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-🖐 **3、** 不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
+🙌  **3、** 支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate, $mul`，不支持 `$setOnInsert, $min, $max`。
+
+示例如：`updateOne({}, { $inc: { quantity: 5 } })`
+
+<br>
+
+🖐 **4、** 不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
 
 虽然结果相同，但性能不同，如果同时要兼顾性能，可自行在 `bulkWrite()` 数据里加上时间。
 
 <br>
 
-🙌 **4、** 不支持 `Model.create()` 指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
+🖐 **5、** `Model.create()` 不支持指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
 
-<br>
+🖐 **6、** 插件不支持 `Schema` 的默认值，因为无法监听获取；示例如下：
 
-🖐 **5、** 支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate, $mul`，不支持 `$setOnInsert, $min, $max`。
+```javascript
+const schema = new mongoose.Schema({
+  name: String,
+  age: {
+    type: Number,
+    default: 1,
+  },
+})
 
-示例如：`updateOne({}, { $inc: { quantity: 5 } })`
+schema.plugin(modifiedAt, ['name', 'age'])
 
+const Cat = mongoose.model('Cat', schema)
+
+const kitty = await Cat.create({ name: 'Kitty' })
+
+// 结果如下，如果希望 age 被监听到，请在 create 里指定 age 属性
+// kitty.name => 'Kitty'
+// kitty.name_modifiedAt => ISODate("2019-09-27T03:13:17.888Z")
+// kitty.age => 1
+// kitty.age_modifiedAt => 不存在
+```
 
 
 ### 更新日志
