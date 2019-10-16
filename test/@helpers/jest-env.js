@@ -4,7 +4,11 @@ const { MongoMemoryServer } = require('mongodb-memory-server')
 class CustomEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup()
-    this.global.mongoServer = new MongoMemoryServer()
+    this.global.mongoServer = new MongoMemoryServer({
+      binary: {
+        version: '3.4'
+      }
+    })
     this.global.mongoUri = await this.global.mongoServer.getConnectionString()
   }
 

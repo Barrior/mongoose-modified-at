@@ -19,36 +19,6 @@ schema.plugin(modifiedAt, ['name', 'age'])
 
 const Chicken = mongoose.model(randomName(), schema)
 
-// This function does not trigger any middleware, not save() nor update().
-// If you need to trigger save() middleware for every document use create() instead.
-test.skip('Model.bulkWrite()', async () => {
-  const nameEgghead = 'Egghead_bulkWrite'
-  const nameFoghorn = 'Foghorn_bulkWrite'
-  const bulk = [
-    {
-      insertOne: {
-        document: { name: nameEgghead, age: 0.5 },
-      },
-    },
-    {
-      insertOne: {
-        document: { name: nameFoghorn, age: 1 },
-      },
-    },
-  ]
-
-  const startTime = moment()
-  await Chicken.bulkWrite(bulk)
-
-  const egghead: any = await Chicken.findOne({ name: nameEgghead })
-  const foghorn: any = await Chicken.findOne({ name: nameFoghorn })
-
-  isDateTypeAndValueValid(egghead.name_modifiedAt, { startTime })
-  isDateTypeAndValueValid(egghead.age_modifiedAt, { startTime })
-  isDateTypeAndValueValid(foghorn.name_modifiedAt, { startTime })
-  isDateTypeAndValueValid(foghorn.age_modifiedAt, { startTime })
-})
-
 test('Model.create()', async () => {
   // Check single document
   const startTime = moment()
@@ -72,16 +42,6 @@ test('Model.create()', async () => {
   isDateTypeAndValueValid(firstDoc.age_modifiedAt, { startTime: startTime2 })
   isDateTypeAndValueValid(secondDoc.name_modifiedAt, { startTime: startTime2 })
   isDateTypeAndValueValid(secondDoc.age_modifiedAt, { startTime: startTime2 })
-
-  // Skip modifiedAt's function for this create
-  // To specify options, "docs" must be an array, not a spread.
-  const egghead3: any = await Chicken.create(
-    [{ name: randomName('Egghead'), age: 1 }],
-    { modifiedAt: false }
-  )
-
-  expect(egghead3[0].name_modifiedAt).toBeUndefined()
-  expect(egghead3[0].age_modifiedAt).toBeUndefined()
 })
 
 test('Model.findByIdAndUpdate()', async () => {
@@ -127,32 +87,6 @@ test('Model.findByIdAndUpdate()', async () => {
     startTime: startTime3,
     endTime: endTime3,
   })
-})
-
-test('Model.findOneAndReplace()', async () => {
-  const egghead: any = await Chicken.create({ name: randomName('Egghead') })
-  await (Chicken as any).findOneAndReplace({ name: egghead.name }, { age: 2 })
-
-  const egghead2: any = await Chicken.findById(egghead._id)
-  expect(egghead2.age).toBe(2)
-  expect(egghead2.name).toBeUndefined()
-  expect(egghead2.name_modifiedAt).toBeUndefined()
-  expect(egghead2.age_modifiedAt).toBeUndefined()
-
-  // Check enable modifiedAt's function
-  const name = randomName('Egghead')
-  const startTime = moment()
-  await (Chicken as any).findOneAndReplace(
-    { _id: egghead._id },
-    { name, age: 3 },
-    { modifiedAt: true }
-  )
-
-  const egghead3: any = await Chicken.findById(egghead._id)
-  expect(egghead3.name).toBe(name)
-  expect(egghead3.age).toBe(3)
-  isDateTypeAndValueValid(egghead3.name_modifiedAt, { startTime })
-  isDateTypeAndValueValid(egghead3.age_modifiedAt, { startTime })
 })
 
 test('Model.findOneAndUpdate()', async () => {
@@ -253,6 +187,21 @@ test('Model.replaceOne()', async () => {
   const egghead3: any = await Chicken.findById(egghead._id)
   expect(egghead3.age).toBe(3)
   isDateTypeAndValueValid(egghead3.age_modifiedAt, { startTime })
+
+  // Use MongoDB native operators
+  const startTime2 = moment()
+  const newName = randomName('Egghead')
+  await (Chicken as any).replaceOne(
+    { _id: egghead._id },
+    { $set: { name: newName }, $inc: { age: 1 } },
+    { modifiedAt: true }
+  )
+
+  const egghead4: any = await Chicken.findById(egghead._id)
+  expect(egghead4.name).toBe(newName)
+  expect(egghead4.age).toBe(4)
+  isDateTypeAndValueValid(egghead4.name_modifiedAt, { startTime: startTime2 })
+  isDateTypeAndValueValid(egghead4.age_modifiedAt, { startTime: startTime2 })
 })
 
 test('Model.update()', async () => {

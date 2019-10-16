@@ -14,34 +14,6 @@ schema.plugin(modifiedAt, ['name', 'age'])
 
 const Goose = mongoose.model(randomName(), schema)
 
-test('Query.prototype.findOneAndReplace()', async () => {
-  const snow = await Goose.create({ name: randomName('Snow') })
-
-  const query = Goose.find()
-  await (query as any).findOneAndReplace({ _id: snow._id }, { age: 1 })
-
-  const snow2: any = await Goose.findById(snow._id)
-  expect(snow2.age).toBe(1)
-  expect(snow2.age_modifiedAt).toBeUndefined()
-  expect(snow2.name).toBeUndefined()
-  expect(snow2.name_modifiedAt).toBeUndefined()
-
-  // Check enable modifiedAt's function
-  const startTime = moment()
-  const name = randomName('Snow')
-  await (query as any).findOneAndReplace(
-    { _id: snow._id },
-    { name, age: 2 },
-    { modifiedAt: true }
-  )
-
-  const snow3: any = await Goose.findById(snow._id)
-  expect(snow3.name).toBe(name)
-  expect(snow3.age).toBe(2)
-  isDateTypeAndValueValid(snow3.name_modifiedAt, { startTime })
-  isDateTypeAndValueValid(snow3.age_modifiedAt, { startTime })
-})
-
 test('Query.prototype.findOneAndUpdate()', async () => {
   const name = randomName('Snow')
   const query = Goose.find()
@@ -87,20 +59,6 @@ test('Query.prototype.replaceOne()', async () => {
   const snow3: any = await Goose.findById(snow._id)
   expect(snow3.age).toBe(3)
   isDateTypeAndValueValid(snow3.age_modifiedAt, { startTime })
-})
-
-test('Query.prototype.setUpdate()', async () => {
-  const name = randomName('Snow')
-  await Goose.create({ name })
-
-  const startTime = moment()
-  const query: any = Goose.where('name', name)
-  query.setUpdate({ age: 2 })
-  await query.update()
-
-  const snow: any = await Goose.findOne({ name })
-  expect(snow.age).toBe(2)
-  isDateTypeAndValueValid(snow.age_modifiedAt, { startTime })
 })
 
 test('Query.prototype.update()', async () => {

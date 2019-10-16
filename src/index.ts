@@ -33,6 +33,11 @@ export type ICorrectOptions = Required<IOptions> & {
 
 const pluginName: string = 'modifiedAt'
 
+// Does not support "$setOnInsert", "$min" and "$max".
+const operators = ['$mul', '$inc', '$currentDate', '$set'] as ReadonlyArray<
+  string
+>
+
 class ModifiedAt {
   constructor(
     public readonly schema: any,
@@ -67,14 +72,11 @@ class ModifiedAt {
 
   public async setTimestamps(params: {
     that?: any
-    softlySet?: boolean
     doc: any
     modifiedPaths: string[]
+    writingType?: number
   }) {
     const { suffix, fields, customList } = this.options
-    const softlySet = params.hasOwnProperty('softlySet')
-      ? params.softlySet
-      : true
 
     const updatePaths: string[] = []
     let updateTime: Date = new Date()
@@ -96,10 +98,15 @@ class ModifiedAt {
     }
 
     forEach(updatePaths, pathname => {
-      if (softlySet) {
-        params.that.set(pathname, updateTime)
-      } else {
-        params.that[pathname] = updateTime
+      switch (params.writingType) {
+        case 1:
+          params.that.set(pathname, updateTime)
+          break
+        case 2:
+          params.that.update({}, { [pathname]: updateTime })
+          break
+        default:
+          params.that[pathname] = updateTime
       }
     })
   }
@@ -108,63 +115,88 @@ class ModifiedAt {
     const $this = this
 
     // for Document
-    // tslint:disable-next-line:variable-name
-    this.schema.pre('save', async function(this: any, _next: any, opts: any) {
-      if (get(opts, pluginName) === false) {
-        return
-      }
+    this.schema.pre('save', async function(this: any, next: any) {
       await $this.setTimestamps({
         that: this,
         doc: this,
         modifiedPaths: this.modifiedPaths(),
+        writingType: 1,
       })
+      next()
     })
 
     // for Query
     // prettier-ignore
     const updateHooks = ['findOneAndUpdate', 'update', 'updateOne', 'updateMany']
-    this.schema.pre(updateHooks, async function(this: any) {
-      if (get(this.getOptions(), pluginName) === false) {
-        return
-      }
-      const updates = this.getUpdate()
-      await $this.setTimestamps({
-        that: this,
-        doc: assign({}, this.getFilter(), updates),
-        modifiedPaths: keys(updates),
+    forEach(updateHooks, hook => {
+      this.schema.pre(hook, async function(this: any, next: any) {
+        if (get(this.options, pluginName) === false) {
+          return next()
+        }
+        const updates: any = {}
+        forEach(this.getUpdate(), (value, key) => {
+          if (includes(operators, key) && isPlainObject(value)) {
+            assign(updates, value)
+          } else {
+            updates[key] = value
+          }
+        })
+        await $this.setTimestamps({
+          that: this,
+          doc: updates,
+          modifiedPaths: keys(updates),
+          writingType: 2,
+        })
+        next()
       })
     })
 
     // for Query
-    const replaceHooks = ['findOneAndReplace', 'replaceOne']
-    this.schema.pre(replaceHooks, async function(this: any) {
-      if (get(this.getOptions(), pluginName) === true) {
-        const updates = JSON.parse(JSON.stringify(this.getUpdate()))
-        await $this.setTimestamps({
-          that: updates,
-          doc: assign({}, this.getFilter(), updates),
-          modifiedPaths: keys(updates),
-          softlySet: false,
+    this.schema.pre('replaceOne', async function(this: any, next: any) {
+      if (get(this.options, pluginName) === true) {
+        const updates: any = {}
+        let is$op = false
+        forEach(this.getUpdate(), (value, key) => {
+          if (includes(operators, key) && isPlainObject(value)) {
+            is$op = true
+            assign(updates, value)
+          } else {
+            updates[key] = value
+          }
         })
-        this.setUpdate(updates)
+
+        let closedUpdates = this.getUpdate()
+        if (is$op) {
+          if (!closedUpdates.$set) {
+            closedUpdates.$set = {}
+          }
+          closedUpdates = closedUpdates.$set
+        }
+
+        await $this.setTimestamps({
+          that: closedUpdates,
+          doc: updates,
+          modifiedPaths: keys(updates),
+        })
       }
+      next()
     })
 
     // for Model
     // prettier-ignore
-    // tslint:disable-next-line:variable-name only-arrow-functions
-    this.schema.pre('insertMany', async function(_next: any, docs: any[], opts: any) {
+    // tslint:disable-next-line:only-arrow-functions
+    this.schema.pre('insertMany', async function(next: any, docs: any[], opts: any) {
       if (get(opts, pluginName) === false) {
-        return
+        return next()
       }
       for (const doc of docs) {
         await $this.setTimestamps({
           that: doc,
           doc,
           modifiedPaths: keys(doc),
-          softlySet: false,
         })
       }
+      next()
     })
   }
 }

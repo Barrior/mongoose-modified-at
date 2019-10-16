@@ -2,6 +2,7 @@
 
 `Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
 
+这里是 `mongoose-modified-at 1.x` 版本，支持于 `Mongoose 4.x`，如果你使用的 `Mongoose 5.x`，请使用 [2.x 版本](https://github.com/Barrior/mongoose-modified-at)。
 
 ### 目录
 
@@ -9,7 +10,6 @@
 - [API介绍](#api介绍)
 - [支持异步（Async）](#支持异步async)
 - [细节说明](#细节说明)
-- [版本支持](#版本支持)
 - [更新日志](#更新日志)
 - [协议](#协议)
 
@@ -37,7 +37,7 @@ const schema = new mongoose.Schema({
 首先安装插件。
 
 ```bash
-npm install mongoose-modified-at
+npm install mongoose-modified-at@1
 ```
 
 然后在 `Schema` 初始化时做简单的配置即可，如下。
@@ -98,7 +98,7 @@ schema.plugin(modifiedAt, {
   // 设置监听字段
   fields: ['name', 'status', 'another'],
   // 设置后缀
-  suffix: '_my_modified_at',
+  suffix: '_your_suffix',
   // 设置路径默认行为
   select: true,
   // 自定义字段
@@ -120,9 +120,8 @@ schema.plugin(modifiedAt, {
 **1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
 
 ```javascript
-// app.ts
 import modifiedAt from 'mongoose-modified-at'
-modifiedAt.suffix = '_my_modified_at'
+modifiedAt.suffix = '_your_suffix'
 ```
 
 
@@ -147,6 +146,8 @@ schema.plugin(modifiedAt, ['name', 'status'])
 
 
 ### 支持异步（Async）
+
+需要 `Node.js` 版本支持 `async/await` 即可。
 
 ```javascript
 import P from 'bluebird'
@@ -185,48 +186,32 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-🙌 **2、** 如果要为 `Model.create()`  指定 `options`，文档需要是数组，如 [Mongoose 的描述](https://mongoosejs.com/docs/api/model.html#model_Model.create)：
 
-```javascript
-[options] «Object» Options passed down to save(). To specify options, docs must be an array, not a spread.
-```
-
-<br>
-
-🤟 **3、** 对于 `replace` 系列操作，`ModifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `ModifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
+🤟 **2、** 对于 `replace` 系列操作，`ModifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `ModifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
 
 示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
 相关  `API` 列表如下：
 
-- Model.findOneAndReplace()
-
 - Model.replaceOne()
-- Query.prototype.findOneAndReplace()
 - Query.prototype.replaceOne()
 - Document.prototype.replaceOne()
 
 <br>
 
-🖐 **4、** 暂不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
+🖐 **3、** 不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
 
 虽然结果相同，但性能不同，如果同时要兼顾性能，可自行在 `bulkWrite()` 数据里加上时间。
 
 <br>
 
-🖐 **5、** 暂不支持 `MongoDB` 原生操作符，如 `$set, $inc, $min` 等。
+🙌 **4、** 不支持 `Model.create()` 指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
+
+<br>
+
+🖐 **5、** 支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate, $mul`，不支持 `$setOnInsert, $min, $max`。
 
 示例如：`updateOne({}, { $inc: { quantity: 5 } })`
-
-
-
-### 版本支持
-
-该插件 `2.x` 版本支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装使用插件 `1.x` 版本。
-
-```bash
-npm install mongoose-modified-at@1
-```
 
 
 
