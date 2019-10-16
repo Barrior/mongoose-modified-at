@@ -49,3 +49,24 @@ test('Base use case: Array form', async () => {
   isDateTypeAndValueValid(kittyFromDB.name_modifiedAt, { startTime, endTime })
   isDateTypeAndValueValid(kittyFromDB.age_modifiedAt, { startTime: startTime2 })
 })
+
+test('Default value of Schema is not support', async () => {
+  const schema = new mongoose.Schema({
+    name: String,
+    age: {
+      type: Number,
+      default: 1,
+    },
+  })
+
+  schema.plugin(modifiedAt, ['name', 'age'])
+
+  const Cat = mongoose.model(randomName(), schema)
+  const startTime = moment()
+  const kitty: any = await Cat.create({ name: 'Kitty' })
+
+  expect(kitty.name).toBe('Kitty')
+  expect(kitty.age).toBe(1)
+  expect(kitty.age_modifiedAt).toBeUndefined()
+  isDateTypeAndValueValid(kitty.name_modifiedAt, { startTime })
+})
