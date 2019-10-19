@@ -205,6 +205,8 @@ petSchema.plugin(modifiedAt, {
 
 🖐 **5、** `Model.create()` 不支持指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
 
+<br>
+
 🖐 **6、** 插件不支持 `Schema` 的默认值，因为无法监听获取；示例如下：
 
 ```javascript
