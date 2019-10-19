@@ -213,7 +213,7 @@ petSchema.plugin(modifiedAt, {
 
 ### 版本支持
 
-该插件支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装使用插件 `1.x` 版本。
+该插件支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装插件 `1.x` 版本，文档请点击[这里](https://github.com/Barrior/mongoose-modified-at/tree/compatible-with-4x)。
 
 ```bash
 npm install mongoose-modified-at@1
