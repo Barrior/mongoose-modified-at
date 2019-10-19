@@ -2,31 +2,29 @@
 
 Mongoose plugin that tracking the fields you specified and automatically record the change time of them into DB. It just like timestamps function of Mongoose itself.
 
-Here is the mongoose-modified-at 1.x version for support Mongoose 4.x, if you using Mongoose 5.x now please migrating to [2.x version](https://github.com/Barrior/mongoose-modified-at).
+Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, if you using **Mongoose 5.x** now please migrating to [2.x version](https://github.com/Barrior/mongoose-modified-at).
+
 
 ### Table of Contents
 
 - [Example](#example)
-- [API Intro](#apiIntro)
-- [Support Async](#Support Async)
-- [Details](#Details)
-- [Changelog](#Changelog)
-- [License](#License)
+- [API Intro](#api-intro)
+- [Support Async](#support-async)
+- [Details](#details)
+- [Changelog](#changelog)
+- [License](#license)
 
 
 ### Example
 
-考虑一个例子，我们有个文章发布与展示的需求，数据模型如下（为了简洁便于理解省去了长度、有效值等的校验，实际生产时还是必要加上的，以免出现脏数据）。
+Consider an example, we need provide a website for users to publish and display their own articles. The data schema looks just like this:
 
 ```javascript
 const schema = new mongoose.Schema({
-  // 文章标题
   title: String,
-  // 是否为草稿
   is_draft: Boolean,
-  // 是否推荐
   is_recommended: Boolean,
-  // 更多字段...
+  // more fields...
 })
 ```
 
@@ -34,25 +32,25 @@ const schema = new mongoose.Schema({
 
 要实现该功能我们需要在代码逻辑层进行处理，这样比较耦合，但也可行，或者自己封装一个 `Mongoose` 中间件来做这件事，不过现在你可以把这件事交给一个经受测试、`API` 优雅的插件 `ModifiedAt` 来处理。
 
-首先安装插件。
+First, you could install plugin. 
 
 ```bash
 npm install mongoose-modified-at@1
 ```
 
-然后在 `Schema` 初始化时做简单的配置即可，如下。
+Then simply configure the schema on it initialization, as follow:
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
 
-// 在 mongoose.model 调用之前
+// before mongoose.model invoked
 schema.plugin(modifiedAt, {
-  // 声明记录时间的字段名
+  // function name will as field name insert to database.
   publishedAt(doc) {
-    // 当函数返回值为 true 时，则记录该时间
+    // when returns a value of true, the time is recorded.
     return !doc.is_draft
   },
-  // 推荐文章也是如此
+  // recommend article same as above.
   recommendedAt(doc) {
     return doc.is_recommended
   }
@@ -61,20 +59,20 @@ schema.plugin(modifiedAt, {
 const YourModel = mongoose.model('ModelName', schema)
 ```
 
-当文档保存或更新携带着 `is_draft` 字段并且值为 `false` 时，插件就会记录此次时间到你声明的 `publishedAt` 字段上一起写入数据库。
+When the document is saved or updated with the `is_draft` field and the value of `false`, the plugin will have recorded the time to the `publishedAt` field you declared and written in database.
 
-示例如下：
+Just like this：
 
 ```javascript
 await YourModel.create({
   title: 'Document Title',
   is_draft: false,
   is_recommended: true,
-  // 更多字段...
+  // more fields...
 })
 ```
 
-结果如下（数据库）：
+Results from database：
 
 ```javascript
 {
@@ -83,56 +81,54 @@ await YourModel.create({
   "is_recommended": true,
   "publishedAt": ISODate("2019-09-27T03:11:07.880Z"),
   "recommendedAt": ISODate("2019-09-27T03:11:07.880Z"),
-  // 更多字段...
+  // more fields...
 }
 ```
 
 
-
 ### API Intro
 
-上面是 `ModifiedAt` 的富 `API` 形式，即对象格式，全部参数选项如下。
+The above is the rich API form of ModifiedAt, all the options are as follow:
 
 ```javascript
 schema.plugin(modifiedAt, {
-  // 设置监听字段
+  // watch fields
   fields: ['name', 'status', 'another'],
-  // 设置后缀
+  // set suffix
   suffix: '_your_suffix',
-  // 设置路径默认行为
+  // set "select()" behavior for paths
   select: true,
-  // 自定义字段
   customField(doc) {
-    // 做一些你想做的事，然后返回 Boolean 值，告诉插件是否记录时间
+    // do something what you want to do, 
+    // then return a boolean value that telling plugin record the time or not.
   },
 })
 ```
 
-参数解释：
+🍎 Explains:
 
-- `fields`: 设置监听字段，在文档创建或更新时，如果被监听的字段有改变，则自动以 `字段名 + 后缀` 的形式记录字段更新时间。可选，`Array` 类型。
-- `suffix`: 设置后缀，默认值为 `_modifiedAt`。可选，`String` 类型。
-- `select`: 设置路径默认行为，默认为 `true` ，[参考 mongoose 文档](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select)。可选，`Boolean` 类型。
-- `customField`: 自定义字段，此字段不会加后缀，以函数形式添加到参数中，用于自定义功能，函数接收唯一文档参数，当函数返回值为真值时，则记录此次时间到该字段上。
+- `fields`: Set observing fields. If the fields being monitored changes when the document is saved or updated, the fields update time is automatically recorded in the form of `field name + suffix`. Optional, `Array` type.
 
+- `suffix`: Set suffix, default value is `_modifiedAt`. Optional, `String` type.
 
+- `select`: Set `select()` behavior for paths, see [Mongoose documentation](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select) for more details about it. Default value of `true`. Optional, `Boolean` type. 
 
-**1、** 如果需要设置全局后缀，可在应用程序初始化时设置一次即可，如下。
+- `customField`: Custom filed that used for custom logic, the function receives the unique parameter `document`, when returns `truly` value, the time will be recorded to the field. This field will not be suffixed.
+
+🌟 **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follow:
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
 modifiedAt.suffix = '_your_suffix'
 ```
 
-
-
-**2、** 为了增加  `API`  的简洁易用同时避免过度重载，`ModifiedAt` 只增加了一种简化传参格式，如下。
+🚀 **2、** In order to increase the simplicity and ease of use of API while avoiding excessive overloads, ModifiedAt has only added a simplified format for the parameters, as follow:
 
 ```javascript
 schema.plugin(modifiedAt, ['name', 'status'])
 ```
 
-意思是将 `fields` 选项提取出来作为参数，写入数据库的结果如下。
+This means that the `fields` option is extracted as a parameter and the result as follow.
 
 ```javascript
 {
@@ -144,10 +140,9 @@ schema.plugin(modifiedAt, ['name', 'status'])
 ```
 
 
-
 ### Support Async
 
-需要 `Node.js` 版本支持 `async/await` 即可。
+You need `Node.js` to support `async/await`.
 
 ```javascript
 import P from 'bluebird'
@@ -156,24 +151,23 @@ const petSchema = new mongoose.Schema({
   name: String,
   age: Number,
   sex: String,
-  // 1：表示采购中，2：已购买，3：已售出
+  // 1: in purchasing, 2: bought, 3: sold
   status: Number,
 })
 
 petSchema.plugin(modifiedAt, {
-  // 记录购买于哪时
+  // record when you bought it 
   async boughtAt(doc) {
-    // 延时 1s
+    // delay 1s
     await P.delay(1000)
     return doc.status === 2
   },
-  // 记录售出于哪时
+  // record when you sold it
   soldAt(doc) {
     return doc.status === 3
   },
 })
 ```
-
 
 
 ### Details
@@ -212,6 +206,8 @@ petSchema.plugin(modifiedAt, {
 
 🖐 **5、** `Model.create()` 不支持指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
 
+<br>
+
 🖐 **6、** 插件不支持 `Schema` 的默认值，因为无法监听获取；示例如下：
 
 ```javascript
@@ -239,8 +235,7 @@ const kitty = await Cat.create({ name: 'Kitty' })
 
 ### Changelog
 
-版本详情的更新日志请查看 [release](https://github.com/Barrior/mongoose-modified-at/releases) 列表。
-
+Detailed changes for each release are documented in the [release notes](https://github.com/Barrior/mongoose-modified-at/releases).
 
 
 ### License
