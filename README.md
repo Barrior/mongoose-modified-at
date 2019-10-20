@@ -109,7 +109,7 @@ schema.plugin(modifiedAt, {
 
 🍎 参数解释：
 
-- `fields`: 设置监听字段，在文档创建或更新时，如果被监听的字段有改变，则自动以 `字段名 + 后缀` 的形式记录字段更新时间。可选，`Array` 类型。
+- `fields`: 设置监听字段，在文档创建或更新时，如果存在被监听的字段，则自动以 `字段名 + 后缀` 的形式做为字段，并记录此次更新时间到该字段上。可选，`Array` 类型。
 - `suffix`: 设置后缀，默认值为 `_modifiedAt`。可选，`String` 类型。
 - `select`: 设置路径默认行为，默认为 `true` ，[参考 Mongoose 文档](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select)。可选，`Boolean` 类型。
 - `customField`: 自定义字段，此字段不会加后缀，以函数形式添加到参数中，用于自定义功能，函数接收唯一文档参数，当函数返回值为真值时，则记录此次时间到该字段上。
