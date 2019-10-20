@@ -17,7 +17,7 @@ Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, i
 
 ### Example
 
-Consider an example, we need provide a website for users to publish and display their own articles. The data schema looks just like this:
+Let's consider an example, we need provide a website for users to publish and display their own articles. The data schema looks just like this:
 
 ```javascript
 const schema = new mongoose.Schema({
@@ -107,13 +107,13 @@ schema.plugin(modifiedAt, {
 
 🍎 Explains:
 
-- `fields`: Set observing fields. If the fields being monitored changes when the document is saved or updated, the fields update time is automatically recorded in the form of `field name + suffix`. Optional, `Array` type.
+- `fields`: Set listening fields. When the document is saved or updated with them, it will have automatically made the form of `field name + suffix` as a field and recorded the time to the field. Optional, `Array` type.
 
 - `suffix`: Set suffix, default value is `_modifiedAt`. Optional, `String` type.
 
 - `select`: Set `select()` behavior for paths, see [Mongoose documentation](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select) for more details about it. Default value of `true`. Optional, `Boolean` type. 
 
-- `customField`: Custom filed that used for custom logic, the function receives the unique parameter `document`, when returns `truly` value, the time will be recorded to the field. This field will not be suffixed.
+- `customField`: Custom filed that used for custom logic, the function receives the unique document parameter, when returns true value, the time will be recorded to the field. This field will not be suffixed.
 
 🌟 **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follow:
 
@@ -172,19 +172,19 @@ petSchema.plugin(modifiedAt, {
 
 ### Details
 
-👍 **1、** 对于 `update` 系列操作，可通过在 `options` 里加上 `{ modifiedAt: false }` 来跳过插件功能，对于此次更新。
+👍 **1、** For a series of update operations, you can skip the plugin function by passing `{ modifiedAt: false }` to options for this update.
 
-`JavaScript` 示例如：`Model.updateOne({}, { status: 2 }, { modifiedAt: false })`
+`JavaScript`：`Model.updateOne({}, { status: 2 }, { modifiedAt: false })`
 
-`TypeScript` 示例如：`Model.updateOne({}, { status: 2 }, { modifiedAt: false } as any)`
+`TypeScript`：`Model.updateOne({}, { status: 2 }, { modifiedAt: false } as any)`
 
 <br>
 
-🤟 **2、** 对于 `replace` 系列操作，`ModifiedAt` 功能默认是关闭的，因为替换操作可能是想换成纯粹的数据，当然如果也需要 `ModifiedAt` 功能，则可以在 `options` 里加上 `{ modifiedAt: true }` 来为此次操作开启插件功能。
+🤟 **2、** For a series of replace operations, the plugin function is disabled by default because you probably really only want to replace the data. Of course, you can enable it by passing `{ modifiedAt: true }` to options for this replace.
 
-示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
+For example：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
-相关  `API` 列表如下：
+Related API list:
 
 - Model.replaceOne()
 - Query.prototype.replaceOne()
@@ -192,23 +192,23 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-🙌  **3、** 支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate, $mul`，不支持 `$setOnInsert, $min, $max`。
+🙌  **3、** Support MongoDB `$set, $inc, $currentDate, $mul`, but not `$setOnInsert, $min, $max`.
 
-示例如：`updateOne({}, { $inc: { quantity: 5 } })`
-
-<br>
-
-🖐 **4、** 不支持 `Model.bulkWrite()` 操作，如[官方文档](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite)所描述，该操作不会触发任何中间件，如果需要触发 `save()` 中间件请使用 `Model.create()` 替代。
-
-虽然结果相同，但性能不同，如果同时要兼顾性能，可自行在 `bulkWrite()` 数据里加上时间。
+For example：`Model.updateOne({}, { $inc: { quantity: 5 } })`
 
 <br>
 
-🖐 **5、** `Model.create()` 不支持指定 `options`，因为 `Mongoose 4.x` 不支持，如需传参请升级 `Mongoose`。
+🖐 **4、** Does not support `Model.bulkWrite()` operation because it does not trigger any middleware, not `save()` nor `update()`. If you need to trigger `save()` middleware for every document use `create()` instead. See Mongoose [documentation](https://mongoosejs.com/docs/api/model.html#model_Model.bulkWrite).
+
+Though the results are the same but the performance is different, if you want to balance performance at the same time, you can manually adding time to the bulk data.
 
 <br>
 
-🖐 **6、** 插件不支持 `Schema` 的默认值，因为无法监听获取；示例如下：
+🖐 **5、** `Model.create()` does not support specifying options because Mongoose 4.x is not supported, please upgrade Mongoose if you need to pass the options.
+
+<br>
+
+🖐 **6、** Does not support default value of the schema because it is inaccessible, as follow:
 
 ```javascript
 const schema = new mongoose.Schema({
@@ -225,13 +225,14 @@ const Cat = mongoose.model('Cat', schema)
 
 const kitty = await Cat.create({ name: 'Kitty' })
 
-// 结果如下，如果希望 age 被监听到，请在 create 里指定 age 属性
+// results:
 // kitty.name => 'Kitty'
 // kitty.name_modifiedAt => ISODate("2019-09-27T03:13:17.888Z")
 // kitty.age => 1
-// kitty.age_modifiedAt => 不存在
+// kitty.age_modifiedAt => doesn't exist
 ```
 
+You can set the `age` property of default value to `create()` if the `age` need to be reached.
 
 ### Changelog
 
