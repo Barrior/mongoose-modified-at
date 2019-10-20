@@ -47,7 +47,7 @@ import modifiedAt from 'mongoose-modified-at'
 
 // 在 mongoose.model 调用之前
 schema.plugin(modifiedAt, {
-  // 声明记录时间的字段名
+  // 函数名将作为字段名写入数据库
   publishedAt(doc) {
     // 当函数返回值为 true 时，则记录该时间
     return !doc.is_draft
