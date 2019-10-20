@@ -189,10 +189,9 @@ petSchema.plugin(modifiedAt, {
 
 示例如：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
-相关  `API` 列表如下：
+相关 `API` 列表如下：
 
 - Model.findOneAndReplace()
-
 - Model.replaceOne()
 - Query.prototype.findOneAndReplace()
 - Query.prototype.replaceOne()
@@ -208,7 +207,7 @@ petSchema.plugin(modifiedAt, {
 
 🖐 **5、** 暂不支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate` 等（下个版本支持）。
 
-示例如：`updateOne({}, { $inc: { quantity: 5 } })`
+示例如：`Model.updateOne({}, { $inc: { quantity: 5 } })`
 
 
 ### 版本支持
