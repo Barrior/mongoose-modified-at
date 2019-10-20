@@ -224,13 +224,14 @@ const Cat = mongoose.model('Cat', schema)
 
 const kitty = await Cat.create({ name: 'Kitty' })
 
-// 结果如下，如果希望 age 被监听到，请在 create 里指定 age 属性
+// 结果如下：
 // kitty.name => 'Kitty'
 // kitty.name_modifiedAt => ISODate("2019-09-27T03:13:17.888Z")
 // kitty.age => 1
 // kitty.age_modifiedAt => 不存在
 ```
 
+如果希望 `age` 被监听到，可以在 `create()` 里指定 `age` 属性，设置为默认值即可。
 
 ### 更新日志
 
