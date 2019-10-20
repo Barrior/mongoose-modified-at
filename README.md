@@ -193,7 +193,7 @@ petSchema.plugin(modifiedAt, {
 
 🙌  **3、** 支持 `MongoDB` 原生操作符，如 `$set, $inc, $currentDate, $mul`，不支持 `$setOnInsert, $min, $max`。
 
-示例如：`updateOne({}, { $inc: { quantity: 5 } })`
+示例如：`Model.updateOne({}, { $inc: { quantity: 5 } })`
 
 <br>
 
