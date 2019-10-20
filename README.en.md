@@ -28,11 +28,11 @@ const schema = new mongoose.Schema({
 })
 ```
 
-当我们在展示最新文章列表时，应该是以文章第一次发布的时间倒序展示，因为文章可以存为草稿，多次编辑，所以不能用 `Mongoose` 提供的 `createdAt` 或 `updatedAt`作为第一次发布的时间，正确的做法是在每次文章创建或更新时，确定用户是发布文章而不是存为草稿，然后记录此次时间，用该时间作为第一次发布的时间。
+When we are displaying the latest article list, we should display it in reverse order when the article was first released, because the article can be saved as a draft and edited many times, so we can't use `createdAt` or `updatedAt` provided by Mongoose. The correct way is to make sure that the user posts the article instead of saving it as a draft each time the article is created or updated, and then records the time as the time of the first release.
 
-要实现该功能我们需要在代码逻辑层进行处理，这样比较耦合，但也可行，或者自己封装一个 `Mongoose` 中间件来做这件事，不过现在你可以把这件事交给一个经受测试、`API` 优雅的插件 `ModifiedAt` 来处理。
+To do this we need handle it in the code logic layer, but it's coupled, but it's also possible, or you can package a Mongoose middleware to do it, but now you can hand over to a plugin **ModifiedAt** that is tested and API elegant.
 
-First, you could install plugin. 
+First, you could install the plugin. 
 
 ```bash
 npm install mongoose-modified-at@1
