@@ -40,7 +40,7 @@ const schema = new mongoose.Schema({
 首先安装插件。
 
 ```bash
-npm install mongoose-modified-at@1
+npm install mongoose-modified-at@1 --save
 ```
 
 然后在 `Schema` 初始化时做简单的配置即可，如下。
