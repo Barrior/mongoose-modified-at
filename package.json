@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --maxWorkers 4",
     "test:watch": "yarn test --watch",
     "coverage": "jest --coverage --maxWorkers 4",
     "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
