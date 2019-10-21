@@ -10,7 +10,7 @@ npm install mongoose-modified-at@1 --save
 
 Simply configure the schema on it initialization:
 
-```
+```javascript
 const modifiedAt = require('mongoose-modified-at')
 
 const articleSchema = new mongoose.Schema({
