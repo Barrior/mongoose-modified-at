@@ -46,9 +46,16 @@
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.5.3"
   },
-  "author": "Barrior",
-  "license": "MIT",
   "engines": {
     "node": ">=10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Barrior/mongoose-modified-at.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Barrior/mongoose-modified-at/issues"
+  },
+  "author": "Barrior",
+  "license": "MIT"
 }
