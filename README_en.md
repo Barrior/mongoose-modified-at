@@ -58,7 +58,7 @@ schema.plugin(modifiedAt, {
   }
 })
 
-const YourModel = mongoose.model('ModelName', schema)
+const Article = mongoose.model('Article', schema)
 ```
 
 When the document is saved or updated with the `is_draft` field and the value of `false`, the plugin will have recorded the time to the `publishedAt` field you declared and written in database.
@@ -66,7 +66,7 @@ When the document is saved or updated with the `is_draft` field and the value of
 Just like this：
 
 ```javascript
-await YourModel.create({
+await Article.create({
   title: 'Document Title',
   is_draft: false,
   is_recommended: true,
