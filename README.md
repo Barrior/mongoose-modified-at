@@ -58,7 +58,7 @@ schema.plugin(modifiedAt, {
   }
 })
 
-const YourModel = mongoose.model('ModelName', schema)
+const Article = mongoose.model('Article', schema)
 ```
 
 当文档保存或更新携带着 `is_draft` 字段并且值为 `false` 时，插件就会记录此次时间到你声明的 `publishedAt` 字段上一起写入数据库。
@@ -66,7 +66,7 @@ const YourModel = mongoose.model('ModelName', schema)
 示例如下：
 
 ```javascript
-await YourModel.create({
+await Article.create({
   title: 'Document Title',
   is_draft: false,
   is_recommended: true,
