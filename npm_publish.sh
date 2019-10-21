@@ -14,9 +14,9 @@ yarn build
 
 cat NPM_README.md > README.md
 
-npm adduser
+yarn login
 
-npm publish
+yarn publish
 
 git checkout .
 
