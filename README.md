@@ -4,7 +4,7 @@
 
 这里是 `mongoose-modified-at 1.x` 版本，支持于 `Mongoose 4.x`，如果你使用的 `Mongoose 5.x`，请使用 [2.x 版本](https://github.com/Barrior/mongoose-modified-at)。
 
-> 中文 | [English](./README.en.md)
+> 中文 | [English](./README_en.md)
 
 
 ### 目录
