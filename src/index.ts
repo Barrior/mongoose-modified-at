@@ -87,8 +87,8 @@ class ModifiedAt {
 
     for (const pathname in customList) {
       if (customList.hasOwnProperty(pathname)) {
-        const truly = await customList[pathname](params.doc)
-        if (truly) {
+        const truthy = await customList[pathname](params.doc)
+        if (truthy) {
           updateTime = new Date()
           updatePaths.push(pathname)
         }
