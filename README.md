@@ -1,4 +1,4 @@
-## mongoose-modified-at
+## mongoose-modified-at [![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
 
 `Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
 
