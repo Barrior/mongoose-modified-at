@@ -30,14 +30,14 @@ const schema = new mongoose.Schema({
 })
 ```
 
-当我们在展示最新文章列表时，应该是以文章第一次发布的时间倒序展示，因为文章可以存为草稿，多次编辑，所以不能用 `Mongoose` 提供的 `createdAt` 或 `updatedAt`作为第一次发布的时间，正确的做法是在每次文章创建或更新时，确定用户是发布文章而不是存为草稿，然后记录此次时间，用该时间作为第一次发布的时间。
+当我们在展示最新文章列表时，应该是以文章第一次发布的时间倒序展示，因为文章可以存为草稿，多次编辑，所以不能用 `Mongoose` 提供的 `createdAt` 或 `updatedAt` 作为第一次发布的时间，正确的做法是在每次文章创建或更新时，确定用户是发布文章而不是存为草稿，然后记录此次时间，用该时间作为第一次发布的时间。
 
 要实现该功能我们需要在代码逻辑层进行处理，这样比较耦合，但也可行，或者自己封装一个 `Mongoose` 中间件来做这件事，不过现在你可以把这件事交给一个经受测试、`API` 优雅的插件 `ModifiedAt` 来处理。
 
 首先安装插件。
 
 ```bash
-npm install mongoose-modified-at
+npm install mongoose-modified-at --save
 ```
 
 然后在 `Schema` 初始化时做简单的配置即可，如下。
@@ -215,7 +215,7 @@ petSchema.plugin(modifiedAt, {
 该插件支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装插件 `1.x` 版本，文档请点击[这里](https://github.com/Barrior/mongoose-modified-at/tree/compatible-with-4x)。
 
 ```bash
-npm install mongoose-modified-at@1
+npm install mongoose-modified-at@1 --save
 ```
 
 
