@@ -2,6 +2,8 @@
 
 `Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
 
+> 中文 | [English](./README_en.md)
+
 
 ### 目录
 
@@ -209,10 +211,38 @@ petSchema.plugin(modifiedAt, {
 
 示例如：`Model.updateOne({}, { $inc: { quantity: 5 } })`
 
+<br>
+
+🖐 **6、** 插件不支持 `Schema` 的默认值，因为无法监听获取；示例如下：
+
+```javascript
+const schema = new mongoose.Schema({
+  name: String,
+  age: {
+    type: Number,
+    default: 1,
+  },
+})
+
+schema.plugin(modifiedAt, ['name', 'age'])
+
+const Cat = mongoose.model('Cat', schema)
+
+const kitty = await Cat.create({ name: 'Kitty' })
+
+// 结果如下：
+// kitty.name => 'Kitty'
+// kitty.name_modifiedAt => ISODate("2019-09-27T03:13:17.888Z")
+// kitty.age => 1
+// kitty.age_modifiedAt => 不存在
+```
+
+如果希望 `age` 被监听到，可以在 `create()` 里指定 `age` 属性，设置为默认值即可。
+
 
 ### 版本支持
 
-该插件支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装插件 `1.x` 版本，文档请点击[这里](https://github.com/Barrior/mongoose-modified-at/tree/compatible-with-4x)。
+该插件支持于 `Mongoose 5.x` 的版本，如果你使用的是 `Mongoose 4.x` 的版本，请安装插件 `1.x` 版本，文档请点击[这里](https://github.com/Barrior/mongoose-modified-at/blob/compatible-with-4x)。
 
 ```bash
 npm install mongoose-modified-at@1 --save
