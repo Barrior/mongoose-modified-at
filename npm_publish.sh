@@ -8,7 +8,7 @@ if [[ $? != 0 ]]
  then exit 1
 fi
 
-yarn coverage
+yarn coverage:report
 
 yarn build
 

@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --maxWorkers 4",
     "test:watch": "yarn test --watch",
-    "coverage": "jest --coverage --maxWorkers 4",
+    "coverage": "yarn test --coverage",
+    "coverage:report": "yarn coverage --coverageReporters=text-lcov | coveralls",
     "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
     "lint": "tslint --fix"
   },
