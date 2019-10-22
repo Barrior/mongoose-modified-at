@@ -11,14 +11,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run: npm install
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: yarn install
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-      - run: npm test
-      - run: npm coverage
+      - run: yarn test
+      - run: yarn coverage
       - store_artifacts:
           path: test-results.xml
           prefix: tests
