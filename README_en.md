@@ -1,5 +1,8 @@
 ## mongoose-modified-at
 
+[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=svg)](https://circleci.com/gh/Barrior/mongoose-modified-at)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
+
 Mongoose plugin that tracking the fields you specified and automatically record the change time of them into DB. It just like timestamps function of Mongoose itself.
 
 Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, if you using **Mongoose 5.x** now please migrating to [2.x version](https://github.com/Barrior/mongoose-modified-at/tree/master/README_en.md).

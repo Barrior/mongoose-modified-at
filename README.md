@@ -1,5 +1,8 @@
 ## mongoose-modified-at
 
+[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=svg)](https://circleci.com/gh/Barrior/mongoose-modified-at)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
+
 `Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
 
 这里是 `mongoose-modified-at 1.x` 版本，支持于 `Mongoose 4.x`，如果你使用的 `Mongoose 5.x`，请使用 [2.x 版本](https://github.com/Barrior/mongoose-modified-at)。
