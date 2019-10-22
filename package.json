@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --verbose --maxWorkers 4",
     "test:watch": "yarn test --watch",
-    "coverage": "jest --coverage --maxWorkers 4",
+    "coverage": "yarn test --coverage --coverageReporters=text-lcov | coveralls",
     "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
     "lint": "tslint --fix"
   },
@@ -33,6 +33,7 @@
     "@types/mongoose": "^5.5.13",
     "bluebird": "^3.5.5",
     "chance": "^1.1.0",
+    "coveralls": "^3.0.7",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
     "lint-staged": "^9.2.4",
