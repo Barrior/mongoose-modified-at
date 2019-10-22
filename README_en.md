@@ -1,14 +1,13 @@
 ## mongoose-modified-at
 
 [![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=svg)](https://circleci.com/gh/Barrior/mongoose-modified-at)
-[![Coverage Status](https://coveralls.io/repos/github/Barrior/mongoose-modified-at/badge.svg?branch=master)](https://coveralls.io/github/Barrior/mongoose-modified-at?branch=master) 
-[![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at) 
+[![Coverage Status](https://coveralls.io/repos/github/Barrior/mongoose-modified-at/badge.svg?branch=master)](https://coveralls.io/github/Barrior/mongoose-modified-at?branch=master)
+[![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
 
 Mongoose plugin that tracking the fields you specified and automatically record the change time of them into DB. It just like timestamps function of Mongoose itself.
 
 > English | [中文](./README.md)
-
 
 ### Table of Contents
 
@@ -19,7 +18,6 @@ Mongoose plugin that tracking the fields you specified and automatically record 
 - [Version Compatibility](#version-compatibility)
 - [Changelog](#changelog)
 - [License](#license)
-
 
 ### Example
 
@@ -38,7 +36,7 @@ When we are displaying the latest article list, we should display it in reverse 
 
 To do this we need to handle it in the code logic layer, it's possible but will make code highly coupled, or you can package a Mongoose middleware by yourself to do it, but now you can hand it over to a plugin **ModifiedAt** that is tested and API elegant.
 
-First, you could install the plugin. 
+First, you could install the plugin.
 
 ```bash
 npm install mongoose-modified-at@1 --save
@@ -59,7 +57,7 @@ schema.plugin(modifiedAt, {
   // recommend article same as above.
   recommendedAt(doc) {
     return doc.is_recommended
-  }
+  },
 })
 
 const Article = mongoose.model('Article', schema)
@@ -91,7 +89,6 @@ Results from database:
 }
 ```
 
-
 ### API Intro
 
 The above is the rich API form of ModifiedAt, all the options are as follows:
@@ -105,7 +102,7 @@ schema.plugin(modifiedAt, {
   // set "select()" behavior for paths
   select: true,
   customField(doc) {
-    // do something what you want to do, 
+    // do something what you want to do,
     // then return a boolean value that telling plugin record the time or not.
   },
 })
@@ -117,18 +114,18 @@ schema.plugin(modifiedAt, {
 
 - `suffix`: Set suffix, default value is `_modifiedAt`. Optional, `String` type.
 
-- `select`: Set `select()` behavior for paths, see [Mongoose documentation](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select) for more details about it. Default value of `true`. Optional, `Boolean` type. 
+- `select`: Set `select()` behavior for paths, see [Mongoose documentation](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select) for more details about it. Default value of `true`. Optional, `Boolean` type.
 
 - `customField`: Custom filed that used for custom logic, the function receives the unique document parameter, when it returns true value, the time will be recorded to the field. This field will not be suffixed.
 
-� **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follows:
+🌟 **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follows:
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
 modifiedAt.suffix = '_your_suffix'
 ```
 
-� **2、** In order to simplify API and make it user friendly while avoiding excessive overloads, ModifiedAt has only added a simplified format for the parameters, as follows:
+🚀 **2、** In order to simplify API and make it user friendly while avoiding excessive overloads, ModifiedAt has only added a simplified format for the parameters, as follows:
 
 ```javascript
 schema.plugin(modifiedAt, ['name', 'status'])
@@ -144,7 +141,6 @@ This means that the `fields` option is extracted as a parameter and the result a
   "status_modifiedAt": ISODate("2019-09-27T03:13:17.888Z"),
 }
 ```
-
 
 ### Support Async
 
@@ -162,7 +158,7 @@ const petSchema = new mongoose.Schema({
 })
 
 petSchema.plugin(modifiedAt, {
-  // record when you bought it 
+  // record when you bought it
   async boughtAt(doc) {
     // delay 1s
     await P.delay(1000)
@@ -174,7 +170,6 @@ petSchema.plugin(modifiedAt, {
   },
 })
 ```
-
 
 ### Details
 
@@ -194,7 +189,7 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-� **3、** For a series of replace operations, the plugin function is disabled by default because you probably only want to replace the data. Of course, you can enable it by passing `{ modifiedAt: true }` to options for this replace.
+🤟 **3、** For a series of replace operations, the plugin function is disabled by default because you probably only want to replace the data. Of course, you can enable it by passing `{ modifiedAt: true }` to options for this replace.
 
 For example：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
@@ -214,13 +209,13 @@ Though the results are the same but the performance is different, if you want to
 
 <br>
 
-🖐  **5、** Does not support MongoDB native operators of `$set, $inc, $currentDate, $mul` etc, maybe next release to support.
+🖐 **5、** Does not support MongoDB native operators of `$set, $inc, $currentDate, $mul` etc, maybe next release to support.
 
 For example：`Model.updateOne({}, { $inc: { quantity: 5 } })`
 
 <br>
 
-� **6、** Does not support default value of the schema because it is inaccessible, as follows:
+🖐 **6、** Does not support default value of the schema because it is inaccessible, as follows:
 
 ```javascript
 const schema = new mongoose.Schema({
@@ -254,11 +249,9 @@ Current version support for **Mongoose 5.x**, if you are using **Mongoose 4.x** 
 npm install mongoose-modified-at@1 --save
 ```
 
-
 ### Changelog
 
 Detailed changes for each release are documented in the [release notes](https://github.com/Barrior/mongoose-modified-at/releases).
-
 
 ### License
 
