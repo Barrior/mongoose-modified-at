@@ -189,19 +189,20 @@ test('Model.replaceOne()', async () => {
   isDateTypeAndValueValid(egghead3.age_modifiedAt, { startTime })
 
   // Use MongoDB native operators
-  const startTime2 = moment()
-  const newName = randomName('Egghead')
-  await (Chicken as any).replaceOne(
-    { _id: egghead._id },
-    { $set: { name: newName }, $inc: { age: 1 } },
-    { modifiedAt: true }
-  )
-
-  const egghead4: any = await Chicken.findById(egghead._id)
-  expect(egghead4.name).toBe(newName)
-  expect(egghead4.age).toBe(4)
-  isDateTypeAndValueValid(egghead4.name_modifiedAt, { startTime: startTime2 })
-  isDateTypeAndValueValid(egghead4.age_modifiedAt, { startTime: startTime2 })
+  // Mongoose does not support
+  // const startTime2 = moment()
+  // const newName = randomName('Egghead')
+  // await (Chicken as any).replaceOne(
+  //   { _id: egghead._id },
+  //   { $set: { name: newName }, $inc: { age: 1 } },
+  //   { modifiedAt: true }
+  // )
+  //
+  // const egghead4: any = await Chicken.findById(egghead._id)
+  // expect(egghead4.name).toBe(newName)
+  // expect(egghead4.age).toBe(4)
+  // isDateTypeAndValueValid(egghead4.name_modifiedAt, { startTime: startTime2 })
+  // isDateTypeAndValueValid(egghead4.age_modifiedAt, { startTime: startTime2 })
 })
 
 test('Model.update()', async () => {
