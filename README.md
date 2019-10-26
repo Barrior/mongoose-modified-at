@@ -62,7 +62,7 @@ schema.plugin(modifiedAt, {
   // 推荐文章也是如此
   recommendedAt(doc) {
     return doc.is_recommended
-  }
+  },
 })
 
 const Article = mongoose.model('Article', schema)
