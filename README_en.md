@@ -5,7 +5,7 @@
 
 Mongoose plugin that tracking the fields you specified and automatically record the change time of them into DB. It just like timestamps function of Mongoose itself.
 
-Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, if you using **Mongoose 5.x** now please migrating to [2.x version](https://github.com/Barrior/mongoose-modified-at/tree/master/README_en.md).
+Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, if you are using **Mongoose 5.x** now please migrating to [2.x version](https://github.com/Barrior/mongoose-modified-at/tree/master/README_en.md).
 
 > English | [中文](./README.md)
 
@@ -22,7 +22,7 @@ Here is the **mongoose-modified-at 1.x** version for support **Mongoose 4.x**, i
 
 ### Example
 
-Let's consider an example, we need provide a website for users to publish and display their own articles. The data schema looks just like this:
+Let's consider an example, we need to provide a website for users to publish and display their own articles. The data schema looks just like this:
 
 ```javascript
 const schema = new mongoose.Schema({
@@ -35,7 +35,7 @@ const schema = new mongoose.Schema({
 
 When we are displaying the latest article list, we should display it in reverse order when the article was first released, because the article can be saved as a draft and edited many times, so we can't use `createdAt` or `updatedAt` provided by Mongoose. The correct way is to make sure that the user posts the article instead of saving it as a draft each time the article is created or updated, and then records the time as the time of the first release.
 
-To do this we need handle it in the code logic layer, but it's coupled, but it's also possible, or you can package a Mongoose middleware to do it, but now you can hand over to a plugin **ModifiedAt** that is tested and API elegant.
+To do this we need to handle it in the code logic layer, it's possible but will make code highly coupled, or you can package a Mongoose middleware by yourself to do it, but now you can hand it over to a plugin **ModifiedAt** that is tested and API elegant.
 
 First, you could install the plugin. 
 
@@ -43,7 +43,7 @@ First, you could install the plugin.
 npm install mongoose-modified-at@1 --save
 ```
 
-Then simply configure the schema on it initialization, as follow:
+Then simply configure the schema on it initialization, as follows:
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
@@ -64,7 +64,7 @@ schema.plugin(modifiedAt, {
 const Article = mongoose.model('Article', schema)
 ```
 
-When the document is saved or updated with the `is_draft` field and the value of `false`, the plugin will have recorded the time to the `publishedAt` field you declared and written in database.
+When the document is saved or updated with the `is_draft` field and the value is `false`, the plugin will recorded the time of document saved or updated to the `publishedAt` field you declared and write into database.
 
 Just like this:
 
@@ -93,7 +93,7 @@ Results from database:
 
 ### API Intro
 
-The above is the rich API form of ModifiedAt, all the options are as follow:
+The above is the rich API form of ModifiedAt, all the options are as follows:
 
 ```javascript
 schema.plugin(modifiedAt, {
@@ -112,28 +112,28 @@ schema.plugin(modifiedAt, {
 
 🍎 Explains:
 
-- `fields`: Set listening fields. When the document is saved or updated with them, it will have automatically made the form of `field name + suffix` as a field and recorded the time to the field. Optional, `Array` type.
+- `fields`: Set listening fields. When the document is saved or updated with them, it will automatically made the form of `field name + suffix` as a field and recorded the time to the field. Optional, `Array` type.
 
 - `suffix`: Set suffix, default value is `_modifiedAt`. Optional, `String` type.
 
 - `select`: Set `select()` behavior for paths, see [Mongoose documentation](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select) for more details about it. Default value of `true`. Optional, `Boolean` type. 
 
-- `customField`: Custom filed that used for custom logic, the function receives the unique document parameter, when returns true value, the time will be recorded to the field. This field will not be suffixed.
+- `customField`: Custom filed that used for custom logic, the function receives the unique document parameter, when it returns true value, the time will be recorded to the field. This field will not be suffixed.
 
-🌟 **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follow:
+🌟 **1、** You can set the global suffix on application initialization, it will be used for each plugin instance, as follows:
 
 ```javascript
 import modifiedAt from 'mongoose-modified-at'
 modifiedAt.suffix = '_your_suffix'
 ```
 
-🚀 **2、** In order to increase the simplicity and ease of use of API while avoiding excessive overloads, ModifiedAt has only added a simplified format for the parameters, as follow:
+🚀 **2、** In order to simplify API and make it user friendly while avoiding excessive overloads, ModifiedAt has only added a simplified format for the parameters, as follows:
 
 ```javascript
 schema.plugin(modifiedAt, ['name', 'status'])
 ```
 
-This means that the `fields` option is extracted as a parameter and the result as follow.
+This means that the `fields` option is extracted as a parameter and the result as follows.
 
 ```javascript
 {
@@ -185,7 +185,7 @@ petSchema.plugin(modifiedAt, {
 
 <br>
 
-🤟 **2、** For a series of replace operations, the plugin function is disabled by default because you probably really only want to replace the data. Of course, you can enable it by passing `{ modifiedAt: true }` to options for this replace.
+🤟 **2、** For a series of replace operations, the plugin function is disabled by default because you probably only want to replace the data. Of course, you can enable it by passing `{ modifiedAt: true }` to options for this replace.
 
 For example：`Model.findOneAndReplace({}, { status: 2 }, { modifiedAt: true })`
 
@@ -213,7 +213,7 @@ Though the results are the same but the performance is different, if you want to
 
 <br>
 
-🖐 **6、** Does not support default value of the schema because it is inaccessible, as follow:
+🖐 **6、** Does not support default value of the schema because it is inaccessible, as follows:
 
 ```javascript
 const schema = new mongoose.Schema({
