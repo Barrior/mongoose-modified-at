@@ -8,7 +8,12 @@ if [[ $? != 0 ]]
  then exit 1
 fi
 
-yarn coverage:report
+branch_name=$(git symbolic-ref HEAD --short)
+
+# only master branch can send report
+if [[ branch_name == "master" ]]
+  then yarn coverage:report
+fi
 
 yarn build
 
