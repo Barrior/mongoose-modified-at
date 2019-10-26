@@ -39,7 +39,7 @@ To do this we need to handle it in the code logic layer, it's possible but will 
 First, you could install the plugin.
 
 ```bash
-npm install mongoose-modified-at@1 --save
+npm install mongoose-modified-at --save
 ```
 
 Then simply configure the schema on it initialization, as follows:
