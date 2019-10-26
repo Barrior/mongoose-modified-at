@@ -6,7 +6,7 @@ class CustomEnvironment extends NodeEnvironment {
     await super.setup()
     this.global.mongoServer = new MongoMemoryServer({
       binary: {
-        version: '3.4'
+        version: '3.4.2'
       }
     })
     this.global.mongoUri = await this.global.mongoServer.getConnectionString()
