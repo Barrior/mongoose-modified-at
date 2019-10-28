@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at) 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
 
-`Mongoose` 插件 - 自动更新字段变化的时间并记录到数据库中；类似 `Mongoose` 自带的 `timestamps` 功能。
+`Mongoose` 插件 - 自动更新字段变化时间并记录到数据库中，类似 `Mongoose` 自带的 `timestamps` 功能。
 
 > 中文 | [English](./README_en.md)
 
@@ -39,7 +39,7 @@ const schema = new mongoose.Schema({
 
 当我们在展示最新文章列表时，应该是以文章第一次发布的时间倒序展示，因为文章可以存为草稿，多次编辑，所以不能用 `Mongoose` 提供的 `createdAt` 或 `updatedAt` 作为第一次发布的时间，正确的做法是在每次文章创建或更新时，确定用户是发布文章而不是存为草稿，然后记录此次时间，用该时间作为第一次发布的时间。
 
-要实现该功能我们需要在代码逻辑层进行处理，这样比较耦合，但也可行，或者自己封装一个 `Mongoose` 中间件来做这件事，不过现在你可以把这件事交给一个经受测试、`API` 优雅的插件 `ModifiedAt` 来处理。
+要实现该功能我们需要在代码逻辑层进行处理，这样可行不过有点耦合，或者自己封装一个 `Mongoose` 中间件来做这件事，不过现在你可以把这件事交给一个经受测试、`API` 优雅的插件 `ModifiedAt` 来处理。
 
 首先安装插件。
 
@@ -147,6 +147,8 @@ schema.plugin(modifiedAt, ['name', 'status'])
 
 
 ### 支持异步（Async）
+
+你需要 `Node.js` 版本支持 `async/await` 即可。
 
 ```javascript
 import P from 'bluebird'
