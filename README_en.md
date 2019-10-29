@@ -1,6 +1,6 @@
 ## mongoose-modified-at
 
-[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=svg)](https://circleci.com/gh/Barrior/mongoose-modified-at)
+[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=shield)](https://circleci.com/gh/Barrior/mongoose-modified-at)
 [![Coverage Status](https://coveralls.io/repos/github/Barrior/mongoose-modified-at/badge.svg?branch=master)](https://coveralls.io/github/Barrior/mongoose-modified-at?branch=master)
 [![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)

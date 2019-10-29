@@ -1,6 +1,6 @@
 # mongoose-modified-at 
 
-[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=svg)](https://circleci.com/gh/Barrior/mongoose-modified-at)
+[![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=shield)](https://circleci.com/gh/Barrior/mongoose-modified-at)
 [![Coverage Status](https://coveralls.io/repos/github/Barrior/mongoose-modified-at/badge.svg?branch=master)](https://coveralls.io/github/Barrior/mongoose-modified-at?branch=master) 
 [![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at) 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
@@ -116,7 +116,7 @@ schema.plugin(modifiedAt, {
 
 🍎 参数解释：
 
-- `fields`: 设置监听字段，在文档创建或更新时，如果存在被监听的字段，则自动以 `字段名 + 后缀` 的形式做为字段，并记录此次更新时间到该字段上。可选，`Array` 类型。
+- `fields`: 设置监听字段，在文档创建或更新时，如果存在被监听的字段，则自动以 `字段名 + 后缀` 的形式作为字段，并记录此次更新时间到该字段上。可选，`Array` 类型。
 - `suffix`: 设置后缀，默认值为 `_modifiedAt`。可选，`String` 类型。
 - `select`: 设置路径默认行为，默认为 `true` ，[参考 Mongoose 文档](https://mongoosejs.com/docs/api.html#schematype_SchemaType-select)。可选，`Boolean` 类型。
 - `customField`: 自定义字段，此字段不会加后缀，以函数形式添加到参数中，用于自定义功能，函数接收唯一文档参数，当函数返回值为真值时，则记录此次时间到该字段上。
