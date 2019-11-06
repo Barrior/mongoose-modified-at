@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/Barrior/mongoose-modified-at.svg?style=shield)](https://circleci.com/gh/Barrior/mongoose-modified-at)
 [![Coverage Status](https://coveralls.io/repos/github/Barrior/mongoose-modified-at/badge.svg?branch=master)](https://coveralls.io/github/Barrior/mongoose-modified-at?branch=master) 
 [![npm version](https://badge.fury.io/js/mongoose-modified-at.svg)](https://badge.fury.io/js/mongoose-modified-at) 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=shield)](https://github.com/prettier/prettier)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Barrior/mongoose-modified-at/blob/master/LICENSE)
 
 `Mongoose` 插件 - 自动更新字段变化时间并记录到数据库中，类似 `Mongoose` 自带的 `timestamps` 功能。
