@@ -252,7 +252,7 @@ npm install mongoose-modified-at@1 --save
 
 ### Changelog
 
-Detailed changes for each release are documented in the [release notes](https://github.com/Barrior/mongoose-modified-at/releases).
+Detailed changes for each release are documented in the [CHANGELOG.md](./CHANGELOG.md).
 
 ### License
 

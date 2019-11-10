@@ -265,7 +265,7 @@ npm install mongoose-modified-at@1 --save
 
 ### 更新日志
 
-版本详情的更新日志请查看 [release](https://github.com/Barrior/mongoose-modified-at/releases) 列表。
+版本详细的更新日志请查看 [CHANGELOG.md](./CHANGELOG.md)。
 
 
 ### 协议
