@@ -10,11 +10,13 @@
     "coverage": "yarn test --coverage",
     "coverage:report": "yarn coverage --coverageReporters=text-lcov | coveralls",
     "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
-    "lint": "tslint --fix"
+    "lint": "tslint --fix",
+    "release": "standard-version --changelogHeader='# Changelog' --release-as"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "lint-staged": {
@@ -27,6 +29,8 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@types/bluebird": "^3.5.27",
     "@types/chance": "^1.0.6",
     "@types/jest": "^24.0.18",
@@ -42,6 +46,7 @@
     "mongodb-memory-server": "^5.2.2",
     "mongoose": "^5.6.10",
     "prettier": "^1.18.2",
+    "standard-version": "^7.0.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
