@@ -11,7 +11,8 @@
     "coverage:report": "yarn coverage --coverageReporters=text-lcov | coveralls",
     "build": "rm -rf dist/ && tsc -p tsconfig.build.json",
     "lint": "tslint --fix",
-    "release": "standard-version --changelogHeader='# Changelog' --release-as"
+    "bump": "standard-version --changelogHeader='# Changelog' --release-as",
+    "release": "yarn test --verbose=false && yarn bump"
   },
   "husky": {
     "hooks": {
