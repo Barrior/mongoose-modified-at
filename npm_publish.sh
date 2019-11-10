@@ -1,19 +1,31 @@
 #!/bin/bash
 
-echo "### Publishing..."
+print_error() {
+  printf "\e[31m${1} \e[0m"
+}
+
+print_info() {
+  printf "\e[34m${1} \e[0m"
+}
+
+echo "✨ $(print_info 'Publishing...')"
+
+readonly BRANCH_NAME=$(git symbolic-ref HEAD --short)
+
+if [[ BRANCH_NAME != "master" ]]
+  then
+    print_error "error"
+    echo "Publish command running only on the master branch, please checkout it."
+    exit 1
+fi
 
 yarn test
 
 if [[ $? != 0 ]]
- then exit 1
+  then exit 1
 fi
 
-branch_name=$(git symbolic-ref HEAD --short)
-
-# only master branch can send report
-if [[ branch_name == "master" ]]
-  then yarn coverage:report
-fi
+yarn coverage:report
 
 yarn build
 
@@ -25,4 +37,4 @@ yarn publish
 
 git checkout .
 
-echo "### Publish done."
+print_info "✨ Publish done.\n"
