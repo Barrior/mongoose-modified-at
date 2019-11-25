@@ -6,6 +6,6 @@ module.exports = {
   testPathIgnorePatterns: ['<rootDir>/test/@.+/'],
   coveragePathIgnorePatterns: ['<rootDir>/test/@.+/'],
   moduleNameMapper: {
-    '~/(.*)': '<rootDir>/src/$1',
+    '^~/(.*)': '<rootDir>/src/$1',
   },
 }
