@@ -86,6 +86,7 @@ class ModifiedAt {
     })
 
     for (const pathname in customList) {
+      /* istanbul ignore if */
       if (customList.hasOwnProperty(pathname)) {
         const truthy = await customList[pathname](params.doc)
         if (truthy) {
