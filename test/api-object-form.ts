@@ -163,3 +163,36 @@ test('Check "select" parameter', async () => {
   const ace3: any = await Dog.findById(ace.id, 'name_modifiedAt')
   isDateTypeAndValueValid(ace3.name_modifiedAt, { startTime, endTime })
 })
+
+test('key type is not function should be ignored', async () => {
+  const schema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    // 1: in purchasing, 2: bought, 3: sold
+    status: Number,
+  })
+
+  schema.plugin(modifiedAt, {
+    async boughtAt() {
+      await P.delay(1000)
+      return false
+    },
+    soldAt: true,
+  })
+
+  const Dog = mongoose.model(randomName(), schema)
+
+  const jack: any = await Dog.create({
+    name: 'Jack',
+    age: 1,
+    status: 1,
+  })
+
+  expect(jack.boughtAt).toBeUndefined()
+  expect(jack.soldAt).toBeUndefined()
+
+  jack.status = 2
+  await jack.save()
+  expect(jack.boughtAt).toBeUndefined()
+  expect(jack.soldAt).toBeUndefined()
+})
