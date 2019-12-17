@@ -72,9 +72,9 @@ class ModifiedAt {
     modifiedPaths: string[]
   }) {
     const { suffix, fields, customList } = this.options
-    const softlySet = params.hasOwnProperty('softlySet')
-      ? params.softlySet
-      : true
+
+    // tslint:disable-next-line:prettier
+    const softlySet = params.softlySet ?? true
 
     const updatePaths: string[] = []
     let updateTime: Date = new Date()
